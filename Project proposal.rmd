@@ -1,0 +1,38 @@
+---
+title: "Project Proposal"
+author: 'Nick Mader, Eric TU, Adhviklal Thoppe, Tessa Reiter'
+date: "2025-11-12"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Project Proposal
+
+### Meeting
+The group can meet after 3:00 from Wednesday to Sunday \
+We will meet on Zoom and use github to share documents and files. We also have a text group chat to communicate.
+
+### The Question
+Is the mean unweighted GPA 3.0 in all classes at UW Madison.
+
+### Links to Data Set
+https://www.kaggle.com/datasets/Madgrades/uw-madison-courses?resource=download&select=courses.csv
+
+### Description of Data
+Madgrades collected the data \
+UW-Madison Registrar is how the data was collected \
+Key variables are classes, subjects and grade counts \
+Each row represents each class and its grade count \
+The whole population is the average grade for each class across all years our sample is the average grade of each class from the years 2006 - 2017 \
+
+
+### Graph
+We can make a histogram or where average GPA on the x axis and frequency on the Y axis.
+
+### Inference Method
+Inference method is single population mean
+
+
