@@ -1,0 +1,58 @@
+---
+title: "final project"
+author: "Eric Tu"
+date: "2025-11-19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+
+null hypothesis: the average gpa at UW-Madison is 3.492
+alternate hypothesis: the average gpa at UW-Madison is not equal 3.492
+
+
+```{r}
+grades <- read.csv("../data/grade_distributions.csv")
+
+grades <- grades %>%
+  mutate(
+    total_points =
+      a_count  * 4.0 +
+      ab_count * 3.5 +
+      b_count  * 3.0 +
+      bc_count * 2.5 +
+      c_count  * 2.0 +
+      d_count  * 1.0 +
+      f_count  * 0.0,
+    
+    total_students =
+      a_count + ab_count + b_count + bc_count + c_count + d_count + f_count,
+    
+    gpa = total_points / total_students
+  ) %>%
+  drop_na()
+
+ggplot(grades, aes(x = gpa)) +
+  geom_histogram(
+    color = "white",
+    fill = "lightblue"
+  ) +
+  labs(
+    title = "Distribution of Course GPA",
+    x = "GPA",
+    y = "Count of Course Sections"
+  ) +
+  geom_vline(xintercept = mean(grades$gpa), size = 1)
+
+
+mean(grades$gpa)
+
+t.test(grades$gpa, mu = 3.492)
+
+
+```
+confidence interval: 3.558, 3.563
