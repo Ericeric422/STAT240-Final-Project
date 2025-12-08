@@ -10,6 +10,14 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
+Introduction:
+
+A student's GPA is one of the most common forms of academic measurement that many people, such as Companies, Professors, and even student themselves, use to get an idea of one's academic level. GPA is measured by giving each letter grade a number of points, and then averaging them out to calculate your GPA. There are many uses of this, such as students using this to get a gauge on how well they're doing, companies selecting who they want to hire, and admission officers at Universities deciding who gets in. It's important to maintain a high GPA, since there are many benefits to having one. Everyone in our group was wondering how students at UW-Madison have kept up with this standard, which in turn caused us to find a data set of all the grades at UW-Madison from the years 2006 to 2017. Something that isn't clearly stated anywhere but is very interesting to know about is how different our GPA is today compared to the past. Since we had a data set on the grades from the past, we decided to find out the last semester average GPA of UW-Madison and compare it to the average from our data set. Thus, our question then became: is th eaverage gpa at Uw-Madison a 3.492? 3.492 is the last semester average GPA we got online, ... (thesis statement)
+
+
+Background:
+
+Statistical Analysis:
 
 null hypothesis: the average gpa at UW-Madison is 3.492
 alternate hypothesis: the average gpa at UW-Madison is not equal 3.492
@@ -34,7 +42,7 @@ grades <- grades %>%
     
     gpa = total_points / total_students
   ) %>%
-  drop_na()
+  drop_na() #the part that cleans the dataset
 
 ggplot(grades, aes(x = gpa)) +
   geom_histogram(
@@ -46,13 +54,16 @@ ggplot(grades, aes(x = gpa)) +
     x = "GPA",
     y = "Count of Course Sections"
   ) +
-  geom_vline(xintercept = mean(grades$gpa), size = 1)
+  geom_vline(xintercept = mean(grades$gpa), size = 1, color = "red") + 
+  geom_vline(xintercept = 3.492, size = 1, color = "blue")
 
-
-mean(grades$gpa)
-
-t.test(grades$gpa, mu = 3.492)
+t.test(grades$gpa, mu = 3.492, alternative = "two.sided")
 
 
 ```
 confidence interval: 3.558, 3.563
+
+
+Discussion:
+
+
