@@ -1,6 +1,6 @@
 ---
 title: "final project"
-author: "Eric Tu"
+author: "Eric Tu, Nicholas Mader, Tessa Reiter, Adhviklal Thoppe"
 date: "2025-11-19"
 output: html_document
 ---
@@ -10,22 +10,21 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
+
 Introduction:
 
   A student's GPA is one of the most common forms of academic measurement that many people, such as Companies, Professors, and even student themselves, use to get an idea of one's academic level. GPA is calculated by assigning each letter grade a number of points and then averaging them. There are many uses for this metric, such as helping students assess how well they’re doing, helping companies decide who to hire, and helping university admission officers evaluate applicants. Because of these uses, it’s important to maintain a high GPA.
 
-  Everyone in our group was curious about how students at UW–Madison have kept up with this standard, which led us to a data set containing all course grades at UW–Madison from 2006 to 2017. Something that isn't clearly stated anywhere but is very interesting to know about is how different our GPA is today compared to the past. Since we had access to historical grades, we decided to compare the last semester’s average GPA to the average in our data set. We found the last semester’s average GPA to be 3.492, which gave us a benchmark for comparison. After calculating the overall average GPA from the 2006–2017 data, we discovered that the data set’s average GPA was actually higher than last semester’s reported value. Therefore, our thesis is that the average GPA at UW–Madison has decreased compared to the historical average, indicating a meaningful shift in academic performance over time.
+  Everyone in our group was curious about how students at UW–Madison have kept up with this standard, which led us to a data set containing all course grades at UW–Madison from 2006 to 2017. Something that isn't clearly stated anywhere but is very interesting to know about is how different our GPA is today compared to the past. Since we had access to historical grades, we decided to compare the last semester’s average GPA to the average in our data set. We found the last semester’s average GPA to be 3.492, which gave us a benchmark for comparison. Our question of interest is: "Is the average GPA at UW-Madison across all years greater than or less than 3.492?". After calculating the overall average GPA from the 2006–2017 data, we discovered that the data set’s average GPA was actually higher than last semester’s reported value. Therefore, we hypothesize that UW–Madison’s historical average GPA is significantly higher than the present-day average GPA.
 
 
 Background:
 
-Statistical Analysis:
-
-null hypothesis: the average gpa at UW-Madison is 3.492
-alternate hypothesis: the average gpa at UW-Madison is not equal 3.492
+We got our data from a Kaggle data set (grade_distributions.csv): https://www.kaggle.com/datasets/Madgrades/uw-madison-courses?resource=download&select=grade_distributions.csv
+It was collected from the UW Madison registrar office. UW Madison publishes reports for all courses, grade reports, and etc for every semester since 2006. This data set consists of all of that for the years 2006 to 2017. The course_offering_uuid is a unique uuid for the course. The section_number is the number of the section the course belongs to. All the different *_count variables indicate the specific grade that was achieved in the course. total_students is the amount of students that took the course and total_points is all of the GPA point values combined together for that course. A single row represents a single course. Some background information that's important to know is that the null hypothesis mean (3.492) is the average GPA for UW-Madison students in the spring semester 2025. We are comparing the GPA from 2006 - 2017 to the last semester's GPA in order to figure out if it's lower or higher. Some unusual parts of our data consist of the special letter grades, such as s, u, cr, n, p, and etc. All of these have barely any impact to the data, since there is such a low count of them across the entire data set.
 
 
-```{r}
+```{r echo = FALSE, warning = FALSE, message = FALSE}
 grades <- read.csv("../data/grade_distributions.csv")
 
 grades <- grades %>%
@@ -46,6 +45,7 @@ grades <- grades %>%
   ) %>%
   drop_na() #the part that cleans the dataset
 
+
 ggplot(grades, aes(x = gpa)) +
   geom_histogram(
     color = "white",
@@ -59,13 +59,34 @@ ggplot(grades, aes(x = gpa)) +
   geom_vline(xintercept = mean(grades$gpa), size = 1, color = "red") + 
   geom_vline(xintercept = 3.492, size = 1, color = "blue")
 
-t.test(grades$gpa, mu = 3.492, alternative = "two.sided")
 
 
 ```
+
+
+the red line indicates the sample mean, while the blue line indicates the 3.492 GPA mean. As seen by the two lines, the sample mean is greater than the 3.492 blue line. This supports my conclusion that the average GPA has decreased compared to the historical average, since the sample mean of the data set is visibly greater than last semester's average GPA.
+
+
+Statistical Analysis:
+
+Key parameters:
+sample mean: 3.56
+sample standard deviation: 0.375
+sample size: 87209
+null hypothesis mean: 3.492
+significance level: 0.05
+degrees of freedom: 87208
+
+type of inference: two-sided single sample mean t-test
+null hypothesis: the average GPA at UW-Madison is 3.492
+alternate hypothesis: the average GPA at UW-Madison is not equal 3.492
+
+Assumptions:
+Our data is continuous, since GPA is measured, not counted. Our graph doesn't appear to be normal, but because of the Central Limit Theorem, large sample sizes (like ours) can still be considered normal. The random sampling assumption is not met, since it's not a random sample. I only have grades from 2006 - 2017, yet I'm making a conclusion about the entirety of UW-Madison and it's history. The years 2006 - 2017 may not be representative of all UW-Madison history. Each row is it's own single course section, and one section's grades do not directly affect another section's grades, thus independence is assumed.
+
 confidence interval: 3.558, 3.563
 
 
 Discussion:
 
-
+Our confidence interval (3.558, 3.562) indicates that we are 95% confident that the Average GPA of UW-Madison lies between 3.558 and 3.562. Since our confidence interval does not include 3.492, we can conclude that the University's average GPA is higher than present day average GPA. Some data I wish I had is a year column / filter. The entire data set on Kaggle has nothing filtering the years, so there is no possible way for me to sort the data by year. The random sampling assumption was not met because I'm making a conclusion about the entirety of Uw-Madison and it's history, but I only have grades from 2006 - 2017. If I had a data set of all the grades of UW-Madison throughout history, I would do a simple random sample and calculate it from there. One additional question that came up when doing this analysis was: "How many courses had an average GPA of 4.0?". Looking through the data set, I saw a lot of 4.0 average GPA's, which makes me question how many courses gave out only As.
